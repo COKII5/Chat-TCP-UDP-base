@@ -9,6 +9,7 @@ public class UdpVideoServer : MonoBehaviour
     private IPEndPoint remoteEndPoint; // Endpoint to identify the remote client
 
     public bool isServerRunning = false; // Flag to check if the server is running
+    private bool hasClient = false; // True once a handshake was received from a client
 
     public void StartUDPServer(int port)
     {
@@ -24,10 +25,13 @@ public class UdpVideoServer : MonoBehaviour
         byte[] receivedBytes = udpServer.EndReceive(result, ref remoteEndPoint); // Completes data reception and gets the received bytes.
         string receivedMessage = System.Text.Encoding.UTF8.GetString(receivedBytes); // Converts received bytes to a string
         Debug.Log("Received handshake from client: " + remoteEndPoint);
+        hasClient = true;
     }
 
     public void SendImage(Texture2D texture, int jpgQuality = 30)
     {
+        if (!hasClient) return; // No client has completed the handshake yet
+
         byte[] jpgBytes = texture.EncodeToJPG(jpgQuality);
         try
         {

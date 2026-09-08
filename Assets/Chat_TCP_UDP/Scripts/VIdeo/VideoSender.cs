@@ -19,10 +19,12 @@ public class VideoSender : MonoBehaviour
     public RawImage videoDisplay; 
 
 
+    [Range(1, 60)] public int targetFps = 30;
+
     private void Start()
     {
         udpServer.StartUDPServer(5000);
-        StartCoroutine(CaptureLoop());
+        StartSending();
     }
 
     
@@ -60,7 +62,7 @@ public class VideoSender : MonoBehaviour
             captureTexture.Apply(false);
 
             udpServer.SendImage(captureTexture, jpegQuality);
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(1f / targetFps);
         }
     }
 
