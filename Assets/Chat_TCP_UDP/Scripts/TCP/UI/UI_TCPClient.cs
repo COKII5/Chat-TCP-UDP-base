@@ -8,6 +8,7 @@ public class UI_TCPClient: MonoBehaviour
     public string serverAddress = "127.0.0.1";
     [SerializeField] private TCPClient clientReference;
     [SerializeField] private TMP_InputField messageInput;
+    [SerializeField] private TextMeshProUGUI chatDisplay;
 
     private IClient _client;
     void Awake()
@@ -41,19 +42,30 @@ public class UI_TCPClient: MonoBehaviour
 
         string message = messageInput.text;
         _client.SendMessageAsync(message);
+        AppendToChat("Yo: " + message);
+        messageInput.text = "";
     }
 
     void HandleMessageReceived(string text)
     {
         Debug.Log("[UI-Client] Message received from server: " + text);
+        AppendToChat("Servidor: " + text);
     }
 
     void HandleConnection()
     {
         Debug.Log("[UI-Client] Client Connected to Server");
+        AppendToChat("<i>Conectado al servidor.</i>");
     }
     void HandleDisconnection()
     {
         Debug.Log("[UI-Client] Client Disconnect from Server");
+        AppendToChat("<i>Desconectado del servidor.</i>");
+    }
+
+    void AppendToChat(string line)
+    {
+        if (chatDisplay == null) return;
+        chatDisplay.text += line + "\n";
     }
 }
