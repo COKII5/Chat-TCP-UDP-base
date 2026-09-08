@@ -22,7 +22,18 @@ public class UdpVideoServer : MonoBehaviour
 
     private void ReceiveHandshake(IAsyncResult result)
     {
-        byte[] receivedBytes = udpServer.EndReceive(result, ref remoteEndPoint); // Completes data reception and gets the received bytes.
+        if (udpServer == null) return; // socket ya cerrado (OnDestroy)
+
+        byte[] receivedBytes;
+        try
+        {
+            receivedBytes = udpServer.EndReceive(result, ref remoteEndPoint); // Completes data reception and gets the received bytes.
+        }
+        catch (ObjectDisposedException)
+        {
+            return; // el socket se cerro mientras esta recepcion estaba pendiente
+        }
+
         string receivedMessage = System.Text.Encoding.UTF8.GetString(receivedBytes); // Converts received bytes to a string
         Debug.Log("Received handshake from client: " + remoteEndPoint);
         hasClient = true;
@@ -43,4 +54,14 @@ public class UdpVideoServer : MonoBehaviour
             Debug.LogError($"Error al enviar UDP: {ex.SocketErrorCode} - {ex.Message}");
         }
     }
+
+    public void CloseServer()
+    {
+        isServerRunning = false;
+        hasClient = false;
+        udpServer?.Close();
+        udpServer = null;
+    }
+
+    private void OnDestroy() => CloseServer();
 }

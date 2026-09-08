@@ -23,15 +23,25 @@ public class UdpVideoClient : MonoBehaviour
 
     private void ReceiveImage(IAsyncResult result)
     {
-        Debug.Log("Receiving image...");
-        byte[] receivedBytes = udpClient.EndReceive(result, ref remoteEndPoint);
-        Debug.Log("Received image: " + receivedBytes.Length);
+        if (udpClient == null) return; // socket ya cerrado (OnDestroy)
+
+        byte[] receivedBytes;
+        try
+        {
+            receivedBytes = udpClient.EndReceive(result, ref remoteEndPoint);
+        }
+        catch (ObjectDisposedException)
+        {
+            return; // el socket se cerro mientras esta recepcion estaba pendiente
+        }
 
         if (receivedBytes != null && receivedBytes.Length > 0)
         {
             OnImageReceived?.Invoke(receivedBytes);
         }
-        udpClient.BeginReceive(ReceiveImage, null); // seguir escuchando
+
+        if (udpClient != null)
+            udpClient.BeginReceive(ReceiveImage, null); // seguir escuchando
     }
 
     public void SendHandshake()
@@ -40,4 +50,12 @@ public class UdpVideoClient : MonoBehaviour
         udpClient.Send(sendBytes, sendBytes.Length, remoteEndPoint); // Sends the bytes to the remote server using UDP
     }
 
+    public void CloseClient()
+    {
+        isServerConnected = false;
+        udpClient?.Close();
+        udpClient = null;
+    }
+
+    private void OnDestroy() => CloseClient();
 }
