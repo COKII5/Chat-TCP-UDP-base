@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_TCPClient: MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UI_TCPClient: MonoBehaviour
     [SerializeField] private TCPClient clientReference;
     [SerializeField] private TMP_InputField messageInput;
     [SerializeField] private TextMeshProUGUI chatDisplay;
+    [SerializeField] private ScrollRect chatScrollRect; // opcional: para autoscroll al fondo
 
     private IClient _client;
     void Awake()
@@ -67,5 +69,11 @@ public class UI_TCPClient: MonoBehaviour
     {
         if (chatDisplay == null) return;
         chatDisplay.text += line + "\n";
+
+        if (chatScrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            chatScrollRect.verticalNormalizedPosition = 0f;
+        }
     }
 }

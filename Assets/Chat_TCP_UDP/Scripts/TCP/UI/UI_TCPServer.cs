@@ -9,6 +9,7 @@ public class TCPServerUI : MonoBehaviour
     [SerializeField] private TCPServer serverReference;
     [SerializeField] private TMP_InputField messageInput;
     [SerializeField] private TextMeshProUGUI chatDisplay;
+    [SerializeField] private ScrollRect chatScrollRect; // opcional: para autoscroll al fondo
 
     private IServer _server;
     void Awake()
@@ -64,5 +65,11 @@ public class TCPServerUI : MonoBehaviour
     {
         if (chatDisplay == null) return;
         chatDisplay.text += line + "\n";
+
+        if (chatScrollRect != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            chatScrollRect.verticalNormalizedPosition = 0f;
+        }
     }
 }
