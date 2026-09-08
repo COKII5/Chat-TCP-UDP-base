@@ -3,6 +3,22 @@
 Ejecutar con dos instancias (dos builds o un build + el Editor) en la misma
 red/localhost. Marcar cada caso al validarlo manualmente.
 
+## Resultados (probado 2026-09-08, escenas Cliente.unity + Servidor.unity
+cargadas juntas en un solo proceso del Editor)
+- [x] Chat TCP bidireccional funcionando (Yo/Cliente/Servidor en pantalla).
+- [x] Mensaje vacío no hace nada (validación OK).
+- [x] Chat + video simultáneos sin bloquearse entre sí.
+- [x] Desconexión del cliente (destruir el objeto TCPClient en Play) detectada
+      correctamente por el servidor ("Client disconnected"), sin excepción.
+- [ ] **Limitación conocida:** reconectar el mismo cliente sin reiniciar el
+      Play completo no vuelve a agarrar (el objeto recreado no re-establece
+      handshake/sockets correctamente). Reiniciar el Play sí permite
+      reconectar sin problema. No crítico para la entrega, queda documentado
+      como mejora futura (habría que re-inicializar sockets/estado al volver
+      a crear el objeto, no solo en el primer `Start()`).
+- [ ] Pendiente: repetir con dos procesos reales separados (dos builds) en
+      vez de dos escenas en el mismo proceso del Editor.
+
 ## 1. Chat TCP
 - [ ] Servidor arranca en el puerto configurado (5555) sin error.
 - [ ] Cliente se conecta con la IP/puerto correctos → evento `OnConnected`
