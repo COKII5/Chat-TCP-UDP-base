@@ -1,10 +1,10 @@
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class VideoReceiver : MonoBehaviour
 {
-    public UdpVideoClient udpClient; // Reference to UDP server for sending data
+    public UdpVideoClient udpClient;
     public RawImage videoDisplay;
 
     public string serverIp = "127.0.0.1";
@@ -28,8 +28,6 @@ public class VideoReceiver : MonoBehaviour
             if (texture == null)
                 texture = new Texture2D(2, 2, TextureFormat.RGB24, false);
 
-            // Un frame UDP puede llegar incompleto/corrupto (sin garantia de entrega);
-            // si el JPEG no es valido simplemente se descarta y se espera el siguiente.
             if (bytes.Length > 0 && texture.LoadImage(bytes, true))
                 videoDisplay.texture = texture;
         }

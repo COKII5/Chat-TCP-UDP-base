@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
@@ -9,7 +9,7 @@ public class TCPServerUI : MonoBehaviour
     [SerializeField] private TCPServer serverReference;
     [SerializeField] private TMP_InputField messageInput;
     [SerializeField] private TextMeshProUGUI chatDisplay;
-    [SerializeField] private ScrollRect chatScrollRect; // opcional: para autoscroll al fondo
+    [SerializeField] private ScrollRect chatScrollRect;
 
     private IServer _server;
     void Awake()
@@ -73,3 +73,4 @@ public class TCPServerUI : MonoBehaviour
         }
     }
 }
+

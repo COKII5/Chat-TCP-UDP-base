@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 public interface IChatConnection
@@ -10,3 +10,4 @@ public interface IChatConnection
     public Task SendMessageAsync(string message);
     public void Disconnect();
 }
+
