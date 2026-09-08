@@ -11,6 +11,11 @@ Ver [`docs/Fase0-decision-protocolo.md`](docs/Fase0-decision-protocolo.md):
 UDP para video (prioriza tiempo real sobre confiabilidad), TCP para chat
 (prioriza integridad y orden sobre velocidad).
 
+## Documentación técnica completa
+Ver [`docs/Documentacion-tecnica.md`](docs/Documentacion-tecnica.md) para el
+detalle de cómo funciona cada parte (chat TCP, video UDP, concurrencia,
+armado de escenas, flujo completo de una sesión).
+
 ## Estructura
 ```
 Assets/Chat_TCP_UDP/
