@@ -1,10 +1,10 @@
 # Chat + Video — Proyecto Final Servicios Multimedia
 
 Proyecto Unity que combina:
-- **Chat de texto vía TCP** (confiable, orientado a conexión).
-- **Streaming de video por frames vía UDP** (baja latencia, tolera pérdida).
+- **Chat de texto vía TCP** 
+- **Streaming de video por frames vía UDP** 
 
-Fork base del profesor: `Chat-TCP-UDP-base` (`COKII5/Chat-TCP-UDP-base`).
+Fork base: Chat-TCP-UDP-base (COKII5/Chat-TCP-UDP-base).
 
 ## Decisión de protocolo
 Ver [`docs/Fase0-decision-protocolo.md`](docs/Fase0-decision-protocolo.md):
@@ -13,7 +13,6 @@ UDP para video (prioriza tiempo real sobre confiabilidad), TCP para chat
 
 
 ## Estructura
-```
 Assets/Chat_TCP_UDP/
   Scripts/
     Interface/   -> IChatConnection, IClient, IServer (contratos comunes)
@@ -26,8 +25,7 @@ Assets/Chat_TCP_UDP/
     TCP/  Tcp_Client.unity, Tcp_Server.unity
     UDP/  Udp_Client.unity, Udp_Server.unity
     Video/ Video_Client.unity, Video_Server.unity
-```
-
+    
 ## Concurrencia
 - **Chat (TCP):** `async/await` sobre `NetworkStream`. Unity captura el
   `SynchronizationContext`, así que las continuaciones (`OnMessageReceived`,
@@ -41,22 +39,10 @@ Assets/Chat_TCP_UDP/
 
 ## Cómo correr
 1. Abrir el proyecto en Unity 6.
-2. Levantar primero la instancia "servidor" (chat + video), luego la
+2. activar primero la instancia "servidor" que tiene (chat + video), luego la
    instancia "cliente" (ej. build + Editor, o dos builds en la misma red).
-3. Chat: conectar con la IP del servidor y puerto `5555`.
-4. Video: el receptor se conecta al puerto `5000`; espera el handshake del
-   emisor antes de empezar a recibir frames.
-
-## Estado / pendientes
-- Fases 0–5 completas (protocolo, fork, envío/recepción de video, chat TCP
-  con UI, limpieza de sockets/concurrencia). Ver historial de commits.
-- **Fase 6 (UI integrada):** falta unir chat + video en una sola escena por
-  rol (cliente / servidor) y asignar en el Inspector el campo `chatDisplay`
-  de `UI_TCPClient`/`TCPServerUI` — trabajo manual en el Editor de Unity,
-  no automatizable desde código.
-- **Fase 7:** plan de pruebas manual en
-  [`docs/Fase7-plan-pruebas.md`](docs/Fase7-plan-pruebas.md), pendiente de
-  ejecutar tras armar la Fase 6.
+3. Chat: conectar con la IP del servidor y puerto "5555".
+4. Video: el receptor se conecta al puerto "5000"; espera el comentario en consola del handshake emisor antes de empezar a recibir frames.
 
 ## Bugs encontrados y corregidos durante el desarrollo
 - `VideoSender` nunca iniciaba el envío (`sending` quedaba en `false`).
