@@ -6,12 +6,6 @@ Proyecto Unity que combina:
 
 Fork base: Chat-TCP-UDP-base (COKII5/Chat-TCP-UDP-base).
 
-## Decisión de protocolo
-Ver [`docs/Fase0-decision-protocolo.md`](docs/Fase0-decision-protocolo.md):
-UDP para video (prioriza tiempo real sobre confiabilidad), TCP para chat
-(prioriza integridad y orden sobre velocidad).
-
-
 ## Estructura
 Assets/Chat_TCP_UDP/
   Scripts/
